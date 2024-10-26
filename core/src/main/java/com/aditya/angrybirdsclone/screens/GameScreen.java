@@ -637,66 +637,81 @@ public class GameScreen implements Screen {
             Bird currentBird = (Bird) bird;
             Vector2 velocity = currentBird.getVelocity();
             velocity.y += GRAVITY * delta;
-            currentBird.setPosition(
-                currentBird.getX() + velocity.x * delta,
-                currentBird.getY() + velocity.y * delta
-            );
+            float newX = currentBird.getX() + velocity.x * delta;
+            float newY = currentBird.getY() + velocity.y * delta;
+            currentBird.setPosition(newX, newY);
 
+            // Update bounds after moving
+            currentBird.updateBounds();
+
+            // Check collisions first
             checkCollisions();
 
-            // Check if bird is out of bounds
-            if (currentBird.getY() < 0 ||
-                currentBird.getX() > Gdx.graphics.getWidth() ||
-                currentBird.getX() < 0) {
-                currentBird.remove();
-                nextBird();
+            // Only check for out of bounds if bird hasn't been destroyed by collision
+            if (!currentBird.isDestroyed()) {
+                // Check if bird is out of bounds
+                if (newY < 0 || newX > Gdx.graphics.getWidth() || newX < 0) {
+                    currentBird.remove();
+                    nextBird();
+                }
             }
         }
     }
 
     private void checkCollisions() {
+        if (!(bird instanceof Bird) || !isFlying) return;
+
         Bird currentBird = (Bird) bird;
+        boolean collisionOccurred = false;
 
         // Check collisions with pigs
         for (GameObject pig : new Array.ArrayIterator<>(pigs)) {
             if (pig.getBounds().overlaps(currentBird.getBounds())) {
+                collisionOccurred = true;
+
+                // Apply collision effects
                 currentBird.onCollision(pig);
                 pig.onCollision(currentBird);
 
+                // Remove pig if destroyed
                 if (pig.isDestroyed()) {
                     pig.remove();
                     pigs.removeValue(pig, true);
                 }
 
-                if (currentBird.isDestroyed()) {
-                    currentBird.remove();
-                    nextBird();
-                }
-
-                // Check if all pigs are destroyed
-                if (pigs.size == 0) {
-                    handleLevelComplete();
-                }
-                break;
+                break; // Exit after first collision
             }
         }
 
         // Check collisions with blocks
         for (GameObject block : new Array.ArrayIterator<>(blocks)) {
             if (block.getBounds().overlaps(currentBird.getBounds())) {
+                collisionOccurred = true;
+
+                // Apply collision effects
                 currentBird.onCollision(block);
                 block.onCollision(currentBird);
 
+                // Remove block if destroyed
                 if (block.isDestroyed()) {
                     block.remove();
                     blocks.removeValue(block, true);
                 }
 
-                if (currentBird.isDestroyed()) {
-                    currentBird.remove();
-                    nextBird();
-                }
-                break;
+                break; // Exit after first collision
+            }
+        }
+
+        // Handle bird destruction and level completion
+        if (collisionOccurred) {
+            if (currentBird.isDestroyed()) {
+                currentBird.remove();
+                nextBird();
+            }
+
+            // Check if all pigs are destroyed AFTER collision processing
+            if (pigs.size == 0) {
+                handleLevelComplete();
             }
         }
     }
