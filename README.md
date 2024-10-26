@@ -83,7 +83,7 @@ src/
         └── com.aditya.angrybirdsclone
 ```
 
-## 📦 Dependencies
+## Dependencies
 
 - LibGDX (Game framework)
 - Box2D (Physics engine)
@@ -101,7 +101,7 @@ src/
 4. Push to the branch
 5. Open a Pull Request
 
-## 📚 References
+## References
 
 - [LibGDX Documentation](https://libgdx.com/dev/)
 - [Box2D Documentation](https://box2d.org/documentation/)
