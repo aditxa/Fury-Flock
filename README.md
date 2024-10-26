@@ -1,36 +1,146 @@
-# AngryBirdsClone
+# Angry Birds-Style Game
 
-A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
+A 2D physics-based puzzle game implemented in Java using LibGDX framework.
 
-This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.
+## 🎮 Game Overview
 
-## Platforms
+Players launch birds at structures to eliminate pigs, using different bird types with unique abilities. The game features multiple levels with increasing difficulty, various types of blocks, and different pig types.
 
-- `core`: Main module with the application logic shared by all platforms.
-- `lwjgl3`: Primary desktop platform using LWJGL3; was called 'desktop' in older docs.
-- `html`: Web platform using GWT and WebGL. Supports only Java projects.
+### Features
+- Multiple bird types (Red Bird, Yellow Bird)
+- Different pig types (Basic Pig, Armored Pig)
+- Various building blocks (Wood, Stone)
+- Physics-based gameplay
+- Level progression system
+- Score tracking
+- Pause functionality
 
-## Gradle
+## 🛠️ Prerequisites
 
-This project uses [Gradle](https://gradle.org/) to manage dependencies.
-The Gradle wrapper was included, so you can run Gradle tasks using `gradlew.bat` or `./gradlew` commands.
-Useful Gradle tasks and flags:
+- Java Development Kit (JDK) 11 or higher
+- Gradle 7.0 or higher
+- LibGDX framework
+- An IDE (preferably IntelliJ IDEA)
 
-- `--continue`: when using this flag, errors will not stop the tasks from running.
-- `--daemon`: thanks to this flag, Gradle daemon will be used to run chosen tasks.
-- `--offline`: when using this flag, cached dependency archives will be used.
-- `--refresh-dependencies`: this flag forces validation of all dependencies. Useful for snapshot versions.
-- `build`: builds sources and archives of every project.
-- `cleanEclipse`: removes Eclipse project data.
-- `cleanIdea`: removes IntelliJ project data.
-- `clean`: removes `build` folders, which store compiled classes and built archives.
-- `eclipse`: generates Eclipse project data.
-- `html:dist`: compiles GWT sources. The compiled application can be found at `html/build/dist`: you can use any HTTP server to deploy it.
-- `html:superDev`: compiles GWT sources and runs the application in SuperDev mode. It will be available at [localhost:8080/html](http://localhost:8080/html). Use only during development.
-- `idea`: generates IntelliJ project data.
-- `lwjgl3:jar`: builds application's runnable jar, which can be found at `lwjgl3/build/libs`.
-- `lwjgl3:run`: starts the application.
-- `test`: runs unit tests (if any).
+## ⚙️ Setup Instructions
 
-Note that most tasks that are not specific to a single project can be run with `name:` prefix, where the `name` should be replaced with the ID of a specific project.
-For example, `core:clean` removes `build` folder only from the `core` project.
+1. Clone the repository:
+```bash
+git clone [https://github.com/aditxa/angry2]
+cd [angry2]
+```
+
+2. Install dependencies:
+```bash
+./gradlew clean build
+```
+
+3. Import project in IntelliJ IDEA:
+- Go to `File -> Open`
+- Select the project's root directory
+- Choose `Import project from external model` -> `Gradle`
+- Click `Finish`
+
+## 🚀 Running the Game
+
+### Running from IDE
+1. Open the project in IntelliJ IDEA
+2. Locate the `DesktopLauncher` class in the desktop module
+3. Right-click and select `Run DesktopLauncher.main()`
+
+### Running from Command Line
+```bash
+./gradlew desktop:run
+```
+
+## 🧪 Testing
+
+Run all tests:
+```bash
+./gradlew test
+```
+
+
+## 🎮 Game Controls
+
+- **Left Click**: Select and aim bird
+- **Drag**: Pull back to set launch power and angle
+- **Release**: Launch bird
+
+
+## 📁 Project Structure
+
+```
+src/
+├── main/
+│   ├── java/
+│   │   └── com.aditya.angrybirdsclone
+│   │       ├── Main.java
+│   │       ├── screens/
+│   │       │   ├── GameScreen.java
+│   │       │   ├── HomeScreen.java
+│   │       │   ├── LevelsScreen.java
+│   │       │   ├── PauseScreen.java
+│   │       │   └── EndScreen.java
+│   │       ├── objects/
+│   │       │   ├── GameObject.java
+│   │       │   ├── birds/
+│   │       │   ├── pigs/
+│   │       │   └── blocks/
+│   │       └── utils/
+│   └── resources/
+│       ├── textures/
+│       ├── sounds/
+│       └── levels/
+└── test/
+    └── java/
+        └── com.aditya.angrybirdsclone
+```
+
+## 🔧 Configuration
+
+Game settings can be modified in `config.properties`:
+- Window dimensions
+- Physics parameters
+- Debug mode
+- Sound settings
+
+## 📦 Dependencies
+
+- LibGDX (Game framework)
+- Box2D (Physics engine)
+- JUnit (Testing)
+- Mockito (Testing)
+- Log4j (Logging)
+
+## 🐛 Known Issues
+
+1. Physics glitches may occur with very high velocities
+2. Rare collision detection issues between fast-moving objects
+3. Memory leak when rapidly switching between levels (fixed in upcoming version)
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+## 📚 References
+
+- [LibGDX Documentation](https://libgdx.com/dev/)
+- [Box2D Documentation](https://box2d.org/documentation/)
+- [Java Game Development with LibGDX](https://www.packtpub.com/product/java-game-development-with-libgdx/9781782166047)
+- [Game Programming Patterns](http://gameprogrammingpatterns.com/)
+
+## 📝 Version History
+
+- 1.0.0
+  - Initial release
+  - Basic game mechanics
+  - 10 levels
+- 1.1.0
+  - Added new bird types
+  - Improved physics
+  - Bug fixes
