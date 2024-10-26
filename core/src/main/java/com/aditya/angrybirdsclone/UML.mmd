@@ -1,0 +1,143 @@
+classDiagram
+    class Main {
+        +getLevelsScreen() LevelsScreen
+        +setScreen(screen Screen)
+    }
+
+    class GameObject {
+        <<abstract>>
+        #health float
+        #isDestroyed boolean
+        #bounds Rectangle
+        +GameObject(texture Texture, x float, y float, width float, height float)
+        +updateBounds() void
+        +getBounds() Rectangle
+        +isDestroyed() boolean
+        +takeDamage(damage float) void
+        +onCollision(other GameObject)*
+    }
+
+    class Bird {
+        <<abstract>>
+        #damage float
+        #velocity Vector2
+        #isFlying boolean
+        #originalPosition Vector2
+        +Bird(texture Texture, x float, y float, width float, height float, damage float)
+        +setVelocity(velocity Vector2) void
+        +isFlying() boolean
+        +getVelocity() Vector2
+        +getDamage() float
+        +reset() void
+        +onCollision(other GameObject) void
+    }
+
+    class Pig {
+        <<abstract>>
+        +Pig(texture Texture, x float, y float, width float, height float, health float)
+        +onCollision(other GameObject) void
+    }
+
+    class Block {
+        <<abstract>>
+        #hardness float
+        +Block(texture Texture, x float, y float, width float, height float, health float, hardness float)
+        +takeDamage(damage float) void
+        +onCollision(other GameObject) void
+    }
+
+    class Screen {
+        <<interface>>
+        +render(delta float)*
+        +resize(width int, height int)*
+        +show()*
+        +hide()*
+        +pause()*
+        +resume()*
+        +dispose()*
+    }
+
+    class GameScreen {
+        -isPaused boolean
+        -currentLevel int
+        -bird GameObject
+        -pigs Array~GameObject~
+        -blocks Array~GameObject~
+        -availableBirds Array~Bird~
+        +GameScreen(game Main, level int)
+        -setupGameElements() void
+        -setupBirds() void
+        -checkCollisions() void
+        -handleLevelComplete() void
+        +resumeGame() void
+    }
+
+    class HomeScreen {
+        +HomeScreen(game Main)
+    }
+
+    class LevelsScreen {
+        -unlockedLevel int
+        +LevelsScreen(game Main)
+        +unlockNextLevel() void
+        -updateLevelButtons() void
+    }
+
+    class PauseScreen {
+        +PauseScreen(game Main, gameScreen GameScreen)
+    }
+
+    class EndScreen {
+        +EndScreen(game Main, message String, currentLevel int, levelCompleted boolean)
+    }
+
+
+    class RedBird {
+        +RedBird(x float, y float)
+    }
+
+    class YellowBird {
+        +YellowBird(x float, y float)
+    }
+
+    class BasicPig {
+        +BasicPig(x float, y float)
+    }
+
+    class ArmoredPig {
+        +ArmoredPig(x float, y float)
+    }
+
+    class WoodBlock {
+        +WoodBlock(x float, y float)
+    }
+
+    class StoneBlock {
+        +StoneBlock(x float, y float)
+    }
+
+
+    GameObject <|-- Bird : extends
+    GameObject <|-- Pig : extends
+    GameObject <|-- Block : extends
+
+    Bird <|-- RedBird : extends
+    Bird <|-- YellowBird : extends
+    Pig <|-- BasicPig : extends
+    Pig <|-- ArmoredPig : extends
+    Block <|-- WoodBlock : extends
+    Block <|-- StoneBlock : extends
+
+    Screen <|.. GameScreen : implements
+    Screen <|.. HomeScreen : implements
+    Screen <|.. LevelsScreen : implements
+    Screen <|.. PauseScreen : implements
+    Screen <|.. EndScreen : implements
+
+    GameScreen --> "1" Main : has
+    GameScreen --> "*" GameObject : has
+    HomeScreen --> "1" Main : has
+    LevelsScreen --> "1" Main : has
+    PauseScreen --> "1" Main : has
+    PauseScreen --> "1" GameScreen : has
+    EndScreen --> "1" Main : has
