@@ -60,19 +60,27 @@ cd [angry2]
 src/
 ├── main/
 │   ├── java/
-│   │   └── com.aditya.angrybirdsclone
-│   │       ├── Main.java
-│   │       ├── screens/
-│   │       │   ├── GameScreen.java
-│   │       │   ├── HomeScreen.java
-│   │       │   ├── LevelsScreen.java
-│   │       │   ├── PauseScreen.java
+│      └── com.aditya.angrybirdsclone
+│          ├── Main.java
+│          ├── UML.mmd
+│          ├── screens/
+│          │   ├── GameScreen.java
+│          │   ├── HomeScreen.java
+│          │   ├── LevelsScreen.java
+│          │   ├── PauseScreen.java
+│          │   └── EndScreen.java
 │   │       │   └── EndScreen.java
-│   │       ├── objects/
+│   │       ├── entities/
 │   │       │   ├── GameObject.java
-│   │       │   ├── birds/
-│   │       │   ├── pigs/
-│   │       │   └── blocks/
+│   │       │   ├── Bird.java
+│   │       │   ├── RedBird.java
+│   │       │   ├── YellowBird.java
+│   │       │   ├── Pig.java
+│   │       │   ├── ArmoredPig.java
+│   │       │   ├── BasicPig.java
+│   │       │   ├── Block.java
+│   │       │   ├── WoodBlock.java
+│   │       │   ├── StoneBlock.java
 │   │       └── utils/
 │   └── resources/
 │       ├── textures/
