@@ -85,7 +85,8 @@ public class EndScreen implements Screen {
         table.row();
         table.add(exitButton).fillX().uniformX().pad(10);
 
-        if (levelCompleted) {
+        // Add "Next Level" button only if not at level 3
+        if (levelCompleted && currentLevel != 3) {
             TextButton nextLevelButton = new TextButton("Next Level", skin);
             nextLevelButton.getStyle().up = new TextureRegionDrawable(borderTexture);
             nextLevelButton.getStyle().fontColor = Color.BLACK;
