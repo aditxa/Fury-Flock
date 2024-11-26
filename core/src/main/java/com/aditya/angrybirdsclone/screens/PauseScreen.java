@@ -37,7 +37,7 @@ public class PauseScreen implements Screen {
         stage.addActor(table);
 
         // Create border texture
-        Texture borderTexture = createBorderTexture(2, Color.WHITE); // 2px border thickness
+        Texture borderTexture = createBorderTexture(2, Color.WHITE);
 
         TextButton resumeButton = new TextButton("Resume", skin);
         TextButton exitButton = new TextButton("Exit", skin);
@@ -46,19 +46,17 @@ public class PauseScreen implements Screen {
         resumeButton.getStyle().up = new TextureRegionDrawable(borderTexture);
         exitButton.getStyle().up = new TextureRegionDrawable(borderTexture);
 
-        // Set text color for normal state
+        // Set text color for normal and hover states
         resumeButton.getStyle().fontColor = Color.BLACK;
         exitButton.getStyle().fontColor = Color.BLACK;
-
-        // Set text color for hover state (over)
-        resumeButton.getStyle().overFontColor = Color.WHITE; // Change as desired
-        exitButton.getStyle().overFontColor = Color.WHITE; // Change as desired
+        resumeButton.getStyle().overFontColor = Color.WHITE;
+        exitButton.getStyle().overFontColor = Color.WHITE;
 
         // Resume button listener
         resumeButton.addListener(event -> {
             if (resumeButton.isPressed()) {
-                gameScreen.resumeGame(); // Resume game logic
-                game.setScreen(gameScreen); // Return to GameScreen
+                gameScreen.resumeGame();
+                game.setScreen(gameScreen);
                 return true;
             }
             return false;
@@ -67,15 +65,38 @@ public class PauseScreen implements Screen {
         // Exit button listener
         exitButton.addListener(event -> {
             if (exitButton.isPressed()) {
-                game.setScreen(game.getLevelsScreen()); // Go to LevelsScreen
+                game.setScreen(game.getLevelsScreen());
                 return true;
             }
             return false;
         });
 
+        // Add Resume and Exit buttons
         table.add(resumeButton).fillX().uniformX();
         table.row().pad(10, 0, 10, 0);
         table.add(exitButton).fillX().uniformX();
+
+        // Add temporary "Next Level" button if level is completed
+        boolean levelCompleted = true; // Set this flag based on your game's level completion logic
+        if (levelCompleted) {
+            TextButton nextLevelButton = new TextButton("Next Level", skin);
+            nextLevelButton.getStyle().up = new TextureRegionDrawable(borderTexture);
+            nextLevelButton.getStyle().fontColor = Color.BLACK;
+            nextLevelButton.getStyle().overFontColor = Color.WHITE;
+
+            // Next Level button listener
+            nextLevelButton.addListener(event -> {
+                if (nextLevelButton.isPressed()) {
+                    game.setScreen(new GameScreen(game, 2));
+                    return true;
+                }
+                return false;
+            });
+
+            // Add Next Level button to the table
+            table.row().pad(10);
+            table.add(nextLevelButton).fillX().uniformX();
+        }
     }
 
     private Texture createBorderTexture(int borderWidth, Color borderColor) {
@@ -100,7 +121,6 @@ public class PauseScreen implements Screen {
     @Override
     public void render(float delta) {
         batch.begin();
-        batch.draw(background, 0, 0);
         batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
 
@@ -128,5 +148,4 @@ public class PauseScreen implements Screen {
         background.dispose();
         batch.dispose();
     }
-
 }

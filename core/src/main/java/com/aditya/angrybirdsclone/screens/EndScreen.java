@@ -73,6 +73,9 @@ public class EndScreen implements Screen {
         // Home button listener
         exitButton.addListener(event -> {
             if (exitButton.isPressed()) {
+                if (levelCompleted && currentLevel < 3) {
+                    game.getLevelsScreen().unlockNextLevel(currentLevel+1); // Unlock the next level
+                }
                 game.setScreen(new LevelsScreen(game));
                 return true;
             }
@@ -94,6 +97,7 @@ public class EndScreen implements Screen {
 
             nextLevelButton.addListener(event -> {
                 if (nextLevelButton.isPressed()) {
+                    game.getLevelsScreen().unlockNextLevel(currentLevel+1);
                     game.setScreen(new GameScreen(game, currentLevel + 1));
                     return true;
                 }
