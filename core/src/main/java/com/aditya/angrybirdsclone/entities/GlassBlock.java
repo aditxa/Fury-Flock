@@ -4,6 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class GlassBlock extends Block {
     public GlassBlock(float x, float y) {
-        super(new Texture("glassblock.png"), x, y, 64f, 64f, 2f, 1f);
+        super(new Texture("block3.png"), x, y, 64f, 64f, 2f, 1f);
     }
 }

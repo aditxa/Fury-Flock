@@ -31,6 +31,11 @@ public abstract class GameObject extends Image {
         return isDestroyed;
     }
 
+    public boolean isOutOfBounds() {
+        return getX() < 0 || getX() > 450 || // Screen width
+            getY() < 0 || getY() > 350;  // Screen height
+         }
+
     public void takeDamage(float damage) {
         health -= damage;
         if (health <= 0) {
