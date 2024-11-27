@@ -1,5 +1,6 @@
 package com.aditya.angrybirdsclone.screens;
 
+import com.aditya.angrybirdsclone.GameState;
 import com.aditya.angrybirdsclone.Main;
 import com.aditya.angrybirdsclone.entities.*;
 import com.badlogic.gdx.Gdx;
@@ -17,6 +18,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import java.util.HashMap;
+
 public class GameScreen implements Screen {
     private Main game;
     private SpriteBatch batch;
@@ -25,12 +28,14 @@ public class GameScreen implements Screen {
     private boolean isPaused = false;
     private ImageButton pauseButton;
     private int currentLevel;
+    public HashMap<Integer, Boolean> levelCompletion;
+
 
     private GameObject bird;
     private GameObject catapult;
-    private Array<GameObject> pigs;
+    public Array<GameObject> pigs;
     private Array<GameObject> blocks;
-    private Array<Bird> availableBirds;
+    public Array<Bird> availableBirds;
     private int currentBirdIndex = 0;
 
     private Vector2 catapultPos;
@@ -41,7 +46,7 @@ public class GameScreen implements Screen {
 
     private static final float MAX_DRAG_DISTANCE = 40f;
     private static final float LAUNCH_SPEED_FACTOR = 8f;
-    private static final float GRAVITY = -9.8f;
+    private static final float GRAVITY = -90f;
 
     private Array<Vector2> trajectoryPoints;
 
@@ -52,6 +57,8 @@ public class GameScreen implements Screen {
         background = new Texture("game.png");
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+        this.currentLevel = level;
+        levelCompletion = new HashMap<>();
         shapeRenderer = new ShapeRenderer();
         trajectoryPoints = new Array<>();
 
@@ -251,7 +258,7 @@ public class GameScreen implements Screen {
         });
     }
 
-    private void nextBird() {
+    public void nextBird() {
         currentBirdIndex++;
         if (currentBirdIndex < availableBirds.size) {
             bird = availableBirds.get(currentBirdIndex);
@@ -310,6 +317,13 @@ public class GameScreen implements Screen {
 
         if (isDragging) {
             renderTrajectory();
+        }
+    }
+
+    public void unlockNextLevel() {
+        if (currentLevel < 3) {
+            levelCompletion.put(currentLevel + 1, true);
+            GameState.saveGame(currentLevel + 1, levelCompletion);
         }
     }
 
@@ -396,7 +410,7 @@ public class GameScreen implements Screen {
             }
         }
     }
-    private void handleLevelComplete() {
+    public void handleLevelComplete() {
         if (currentLevel == 1) {
             // Progress to level 2
             game.setScreen(new EndScreen(game, "Level Complete!", currentLevel, true));
@@ -419,6 +433,16 @@ public class GameScreen implements Screen {
         }
         shapeRenderer.end();
     }
+
+    public void checkLevelCompletion() {
+        // Check if the level is complete
+        // This is a simplified check, you can implement collision checks or other conditions
+        if (currentLevel == 1) {
+            levelCompletion.put(1, true);
+            GameState.saveGame(currentLevel, levelCompletion);
+        }
+    }
+
 
     @Override
     public void resize(int width, int height) {
