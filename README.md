@@ -124,3 +124,49 @@ project-root/
 - [Box2D Documentation](https://box2d.org/documentation/)
 - [Java Game Development with LibGDX](https://www.packtpub.com/product/java-game-development-with-libgdx/9781782166047)
 - [Game Programming Patterns](http://gameprogrammingpatterns.com/)
+
+
+# Angry Birds Clone (LibGDX)
+
+This project is a GUI-based Angry Birds clone built with the **LibGDX** framework. It features multiple levels, UI screens, and bird-launching mechanics, with visuals inspired by the classic game.
+
+## Requirements
+- **Java Development Kit (JDK)** (Version 8 or above)
+- **IntelliJ IDEA** IDE
+- **LibGDX** framework
+- Gradle for dependency management
+
+## Setup Instructions
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd <repository-directory>
+Open the project in IntelliJ IDEA:
+
+Select "Open or Import" and choose the project's root directory.
+IntelliJ should detect the Gradle build system automatically.
+Sync Gradle:
+
+Allow IntelliJ to download and sync dependencies for the project.
+Add assets:
+
+Place all required assets (e.g., endscreen.png, homescreen.png, catapult.png, etc.) in the android/assets folder.
+Run the Project
+Select the Main class: Ensure the Main class is set as the entry point for the project.
+
+Run the desktop module: Execute the desktop module using the Gradle task:
+
+./gradlew desktop:run
+Alternatively, use the IntelliJ "Run" button for the desktop configuration.
+
+Testing the Project
+Play the game:
+
+Navigate through the different screens (home, levels, pause, etc.).
+Test the bird-launching mechanics, collision detection, and level transitions.
+Run unit tests (if implemented):
+
+./gradlew test
+Online References
+YouTube: Tutorials for LibGDX GUI design and game development.
+Google: Documentation and forum discussions for troubleshooting.
