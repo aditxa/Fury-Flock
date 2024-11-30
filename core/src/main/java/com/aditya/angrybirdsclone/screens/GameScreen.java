@@ -323,7 +323,7 @@ public class GameScreen implements Screen {
     public void unlockNextLevel() {
         if (currentLevel < 3) {
             levelCompletion.put(currentLevel + 1, true);
-            GameState.saveGame(currentLevel + 1, levelCompletion);
+//            GameState.saveGame(currentLevel + 1, levelCompletion);
         }
     }
 
@@ -439,7 +439,7 @@ public class GameScreen implements Screen {
         // This is a simplified check, you can implement collision checks or other conditions
         if (currentLevel == 1) {
             levelCompletion.put(1, true);
-            GameState.saveGame(currentLevel, levelCompletion);
+//            GameState.saveGame(currentLevel, levelCompletion);
         }
     }
 

@@ -5,16 +5,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class HomeScreen implements Screen {
     private Main game;
     private Stage stage;
-    private Skin skin;
     private SpriteBatch batch;
     private Texture background;
 
@@ -24,15 +24,15 @@ public class HomeScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
         background = new Texture("homescreen.png"); // Your home screen background
 
-        Table table = new Table();
-        table.setFillParent(true);
-        stage.addActor(table);
+        // Load button textures
+        Texture startTexture = new Texture("start.png");
+        Texture exitTexture = new Texture("exit1.png");
 
-        TextButton startButton = new TextButton("Start", skin);
-        TextButton exitButton = new TextButton("Exit", skin);
+        // Create ImageButtons
+        ImageButton startButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(startTexture)));
+        ImageButton exitButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(exitTexture)));
 
         // Handle Start button click
         startButton.addListener(event -> {
@@ -52,10 +52,14 @@ public class HomeScreen implements Screen {
             return false;
         });
 
-        table.add(startButton).fillX().uniformX().minWidth(150).minHeight(50).pad(10); // Make the button bigger with padding
-        table.row().pad(1, 0, 10, 0);
-        table.add(exitButton).fillX().uniformX().minWidth(150).minHeight(50).pad(10); // Same for the exit button
+        // Add buttons to a table
+        Table table = new Table();
+        table.setFillParent(true);
+        stage.addActor(table);
 
+        table.add(startButton).size(300, 200);
+        table.row();
+        table.add(exitButton).size(100, 100);
     }
 
     @Override
@@ -65,7 +69,6 @@ public class HomeScreen implements Screen {
     public void render(float delta) {
         batch.begin();
         batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
         batch.end();
 
         stage.act(delta);

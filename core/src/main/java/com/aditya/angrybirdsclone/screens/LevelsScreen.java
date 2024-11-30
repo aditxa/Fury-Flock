@@ -16,7 +16,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import java.util.Random;
 
-public class LevelsScreen implements Screen {
+public class LevelsScreen implements Screen  {
     private Main game;
     private Stage stage;
     private SpriteBatch batch;
@@ -115,6 +115,21 @@ public class LevelsScreen implements Screen {
         table.row(); // Move to a new row
         table.add(randomButton).pad(10).width(300).height(100).colspan(3); // Center across two columns
     }
+
+    public int getUnlockedLevel() {
+        return unlockedLevel;
+    }
+
+    public void setUnlockedLevel(int level) {
+        if (level > 0 && level <= 3) { // Ensure level is within valid bounds
+            unlockedLevel = level;
+            updateLevelButtons(); // Update buttons if needed
+        } else {
+            System.out.println("Invalid level: " + level);
+        }
+    }
+
+
 
     private void createBackButton() {
         // Load back button texture
