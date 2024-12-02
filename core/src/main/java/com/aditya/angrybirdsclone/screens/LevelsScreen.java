@@ -101,11 +101,10 @@ public class LevelsScreen implements Screen  {
         // Create an ImageButton using the randomTexture
         ImageButton randomButton = new ImageButton(new TextureRegionDrawable(randomTexture));
 
-        // Add listener to pick a random level and start it
+        // Add listener to start a random level
         randomButton.addListener(event -> {
             if (event.isHandled()) {
-                int randomLevel = random.nextInt(unlockedLevel) + 1; // Choose a random unlocked level (1 to unlockedLevel)
-                game.setScreen(new GameScreen(game, randomLevel)); // Start the random level
+                game.setScreen(new GameScreen(game, -1)); // -1 for random level
                 return true;
             }
             return false;
@@ -115,6 +114,7 @@ public class LevelsScreen implements Screen  {
         table.row(); // Move to a new row
         table.add(randomButton).pad(10).width(300).height(100).colspan(3); // Center across two columns
     }
+
 
     public int getUnlockedLevel() {
         return unlockedLevel;

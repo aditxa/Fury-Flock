@@ -16,10 +16,10 @@ public class Main extends Game {
         batch = new SpriteBatch();
 //
 //        // Load and play background music
-//        backgroundMusic = com.badlogic.gdx.Gdx.audio.newMusic(com.badlogic.gdx.Gdx.files.internal("music.mp3"));
-//        backgroundMusic.setLooping(true); // Set music to loop
-//        backgroundMusic.setVolume(0.5f); // Adjust volume (0.0f to 1.0f)
-//        backgroundMusic.play(); // Start playing the music
+        backgroundMusic = com.badlogic.gdx.Gdx.audio.newMusic(com.badlogic.gdx.Gdx.files.internal("music.mp3"));
+        backgroundMusic.setLooping(true); // Set music to loop
+        backgroundMusic.setVolume(0.5f); // Adjust volume (0.0f to 1.0f)
+        backgroundMusic.play(); // Start playing the music
 
         // Load the unlocked level from the saved state
         GameState loadedState = GameStateManager.loadGameState();

@@ -1,6 +1,7 @@
 package com.aditya.angrybirdsclone.screens;
 
 import com.aditya.angrybirdsclone.GameState;
+import com.aditya.angrybirdsclone.GameStateManager;
 import com.aditya.angrybirdsclone.Main;
 import com.aditya.angrybirdsclone.entities.*;
 import com.badlogic.gdx.Gdx;
@@ -17,6 +18,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import java.util.*;
+import com.badlogic.gdx.math.*;
 
 import java.util.HashMap;
 
@@ -83,7 +86,9 @@ public class GameScreen implements Screen {
         setupBirds();
 
         // Setup level
-        if (currentLevel == 1) {
+        if (currentLevel == -1) { // -1 indicates random level
+            setupRandomLevel();
+        } else if (currentLevel == 1) {
             setupLevel1();
         } else if (currentLevel == 2) {
             setupLevel2();
@@ -127,6 +132,10 @@ public class GameScreen implements Screen {
             availableBirds.add(new YellowBird(catapultPos.x, catapultPos.y));
             availableBirds.add(new RedBird(catapultPos.x, catapultPos.y));
         } else if (currentLevel == 3) {
+            availableBirds.add(new BlueBird(catapultPos.x, catapultPos.y));
+            availableBirds.add(new RedBird(catapultPos.x, catapultPos.y));
+            availableBirds.add(new YellowBird(catapultPos.x, catapultPos.y));
+        } else{
             availableBirds.add(new BlueBird(catapultPos.x, catapultPos.y));
             availableBirds.add(new RedBird(catapultPos.x, catapultPos.y));
             availableBirds.add(new YellowBird(catapultPos.x, catapultPos.y));
@@ -210,7 +219,35 @@ public class GameScreen implements Screen {
 
     }
 
+    private void setupRandomLevel() {
+        Random random = new Random();
 
+        // Clear any existing blocks and pigs before starting
+        blocks.clear();
+        pigs.clear();
+
+        // Generate a random number of blocks
+        int numBlocks = random.nextInt(5) + 3; // Between 3 and 7 blocks
+        int numPigs = random.nextInt(3) + 1;   // Between 1 and 3 pigs
+
+        // Create blocks and pigs
+        for (int i = 0; i < numBlocks; i++) {
+            int blockX = 300 + i * 80; // Spacing between blocks
+            int blockY = 50;            // Initial Y position for blocks
+            int blockHeight = random.nextInt(3) * 40 + 50; // Random block height
+
+            WoodBlock block = new WoodBlock(blockX, blockY); //, 60, blockHeight);
+            blocks.add(block);
+            stage.addActor(block);
+
+            // Place a pig on top of the block if there are pigs left to place
+            if (i < numPigs) {
+                BasicPig pig = new BasicPig(blockX + 10, blockY + blockHeight + 10); // Adjust pig position slightly
+                pigs.add(pig);
+                stage.addActor(pig);
+            }
+        }
+    }
     private void setupBirdInput() {
         bird.addListener(new InputListener() {
             @Override
@@ -320,12 +357,12 @@ public class GameScreen implements Screen {
         }
     }
 
-    public void unlockNextLevel() {
-        if (currentLevel < 3) {
-            levelCompletion.put(currentLevel + 1, true);
+//    public void unlockNextLevel() {
+//        if (currentLevel < 3) {
+//            levelCompletion.put(currentLevel + 1, true);
 //            GameState.saveGame(currentLevel + 1, levelCompletion);
-        }
-    }
+//        }
+//    }
 
     private void updateGame(float delta) {
         if (isFlying && bird instanceof Bird) {
@@ -411,18 +448,16 @@ public class GameScreen implements Screen {
         }
     }
     public void handleLevelComplete() {
-        if (currentLevel == 1) {
-            // Progress to level 2
+        if (currentLevel == -1) { // -1 represents the random level
+            game.setScreen(new EndScreen(game, "Level Complete!", 3, true)); // Use level 3's end screen
+        } else if (currentLevel == 1) {
             game.setScreen(new EndScreen(game, "Level Complete!", currentLevel, true));
         } else if (currentLevel == 2) {
-            // Progress to level 3
             game.setScreen(new EndScreen(game, "Level Complete!", currentLevel, true));
         } else if (currentLevel == 3) {
-            // Game complete
             game.setScreen(new EndScreen(game, "Game Complete!", currentLevel, true));
         }
     }
-
     private void renderTrajectory() {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(1, 1, 1, 0.5f);
@@ -435,11 +470,15 @@ public class GameScreen implements Screen {
     }
 
     public void checkLevelCompletion() {
-        // Check if the level is complete
-        // This is a simplified check, you can implement collision checks or other conditions
         if (currentLevel == 1) {
             levelCompletion.put(1, true);
-//            GameState.saveGame(currentLevel, levelCompletion);
+
+            // Create a GameState object with updated levelCompletion
+            GameState gameState = new GameState(currentLevel, 0);
+            gameState.setLevelCompletion(levelCompletion);
+
+            // Save the updated state
+            GameStateManager.saveGameState(gameState);
         }
     }
 

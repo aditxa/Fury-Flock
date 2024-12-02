@@ -1,27 +1,31 @@
 package com.aditya.angrybirdsclone;
 
 import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import com.badlogic.gdx.files.FileHandle;
+import java.util.*;
+
 public class GameState implements Serializable {
     private static final long serialVersionUID = 1L;
-    private int level;
-    private String playerName;
-    // Ensure compatibility across versions
-
+    private HashMap<Integer, Boolean> levelCompletion;
     private int currentLevel;
     private int highScore;
+    private String playerName;
 
     // Constructor
     public GameState(int currentLevel, int highScore) {
-        this.level = 1;
-        this.playerName = "player";
-        this.currentLevel = 1;
+        this.currentLevel = currentLevel;
         this.highScore = highScore;
+        this.playerName = "Player"; // Default name
+        this.levelCompletion = new HashMap<>();
     }
 
+    // Getters and Setters
+    public HashMap<Integer, Boolean> getLevelCompletion() {
+        return levelCompletion;
+    }
 
-
+    public void setLevelCompletion(HashMap<Integer, Boolean> levelCompletion) {
+        this.levelCompletion = levelCompletion;
+    }
     // Getters and Setters
     public int getCurrentLevel() {
         return currentLevel;
@@ -39,25 +43,16 @@ public class GameState implements Serializable {
         this.highScore = highScore;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public int getLevel() {
-        return level;
+    public String getPlayerName() {
+        return playerName;
     }
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
 
-    public String getPlayerName() {
-        return playerName;
-    }
-
     @Override
     public String toString() {
-        return "GameState [level=" + level + "]";
+        return "GameState { Level=" + currentLevel + ", HighScore=" + highScore + ", Player=" + playerName + " }";
     }
-
 }

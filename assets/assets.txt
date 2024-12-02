@@ -8,10 +8,14 @@ block.png
 block1.png
 block2.png
 block3.png
+blue_bird.png
 catapult.png
 endscreen.png
+exit1.png
+exit2.png
 game.png
 gamebackground.png
+glassblock.png
 homescreen.png
 level.png
 level1.png
@@ -19,6 +23,8 @@ level2.png
 level3.png
 libgdx.png
 lock.png
+music.mp3
+next.png
 pause.png
 pausescreen.png
 pig.png
@@ -26,7 +32,10 @@ pig1.png
 pig2.png
 pig3.png
 random.png
+resume.png
+retry.png
 Screenshot 2024-11-28 004048.png
+start.png
 structure.png
 ui/font-list.fnt
 ui/font-subtitle.fnt

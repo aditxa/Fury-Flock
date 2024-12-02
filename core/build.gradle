@@ -8,8 +8,24 @@ dependencies {
   api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
   api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
+  implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+  testImplementation "com.badlogicgames.gdx:gdx-backend-headless:1.12.0"
+  implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+  runtimeOnly "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+  runtimeOnly "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+// https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter
+  testImplementation 'org.mockito:mockito-core:5.4.0'
+  testImplementation 'org.junit.jupiter:junit-jupiter:5.11.3'
+  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.3'
+  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.3'
+  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.3'
+  testImplementation 'org.testng:testng:7.7.1'
+
 
   if(enableGraalNative == 'true') {
     implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
+  }
+  tasks.withType(Test) {
+    useJUnitPlatform() // Ensures JUnit 5 is used for test discovery
   }
 }
